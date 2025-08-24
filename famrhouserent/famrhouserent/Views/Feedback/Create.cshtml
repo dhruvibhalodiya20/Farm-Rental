@@ -1,0 +1,69 @@
+﻿@model famrhouserent.Models.Feedback
+
+@{
+    ViewData["Title"] = "Give Feedback";
+}
+
+<br />
+<br />
+<br />
+<div class="container mt-5">
+    <h2 class="mb-4">Submit Your Feedback</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+
+    <form asp-action="Create" asp-controller="Feedback" method="post">
+        <input type="hidden" asp-for="UserId" />
+        @* <input type="hidden" asp-for="Rating" id="RatingInput" /> *@
+        <input type="hidden" asp-for="Rating" id="RatingInput" name="Rating" />
+
+        <div class="mb-4">
+            <label class="form-label">Rating:</label>
+            <div id="starRating" class="text-warning fs-2">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <i class="fa-regular fa-star star" data-value="@i"></i>
+                }
+            </div>
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Comment" class="form-label">Comment</label>
+            <textarea asp-for="Comment" class="form-control" rows="4" placeholder="Write your feedback..."></textarea>
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('RatingInput');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                const value = parseInt(this.getAttribute('data-value'));
+                ratingInput.value = value;
+
+                stars.forEach(s => {
+                    const starVal = parseInt(s.getAttribute('data-value'));
+                    s.classList.remove('fa-solid', 'fa-regular');
+                    s.classList.add(starVal <= value ? 'fa-solid' : 'fa-regular');
+                });
+            });
+        });
+    </script>
+}

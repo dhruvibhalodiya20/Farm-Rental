@@ -1,0 +1,184 @@
+@{
+    ViewData["Title"] = "Our Properties - FarmHouse Hub";
+}
+
+<div class="properties-hero">
+    <div class="overlay"></div>
+    <div class="container">
+        <h1>Discover Our Farmhouses</h1>
+        <p>Find your perfect getaway among our carefully curated properties</p>
+    </div>
+</div>
+
+<div class="filter-section">
+    <div class="container">
+        <div class="filter-wrapper">
+            <div class="filter-group">
+                <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                <select id="location" class="custom-select">
+                    <option value="">All Locations</option>
+                    <option value="riverside">Riverside</option>
+                    <option value="hillside">Hillside</option>
+                    <option value="countryside">Countryside</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label><i class="fas fa-users"></i> Guests</label>
+                <select id="guests" class="custom-select">
+                    <option value="">Any</option>
+                    <option value="1-5">1-5 Guests</option>
+                    <option value="6-10">6-10 Guests</option>
+                    <option value="11+">11+ Guests</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label><i class="fas fa-swimming-pool"></i> Amenities</label>
+                <select id="amenities" class="custom-select">
+                    <option value="">All Amenities</option>
+                    <option value="pool">Swimming Pool</option>
+                    <option value="bonfire">Bonfire Area</option>
+                    <option value="bbq">BBQ</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label><i class="fas fa-rupee-sign"></i> Price Range</label>
+                <select id="price" class="custom-select">
+                    <option value="">Any Price</option>
+                    <option value="budget">₹5,000 - ₹10,000</option>
+                    <option value="mid">₹10,000 - ₹15,000</option>
+                    <option value="premium">₹15,000+</option>
+                </select>
+            </div>
+
+            <button class="btn-filter">
+                <i class="fas fa-filter"></i> Apply Filters
+            </button>
+        </div>
+    </div>
+</div>
+
+@* <div class="properties-grid"> *@
+@*     <div class="container"> *@
+@*         <div class="row"> *@
+@*             @for (int i = 0; i < 6; i += 3) *@
+@*             { *@
+@*                 <div class="farmhouse-row"> *@
+@*                     <div class="farmhouse-card"> *@
+@*                         <div class="farmhouse-img"> *@
+@*                             <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6" alt="Sunrise Valley Farmhouse"> *@
+@*                             <div class="farmhouse-badge">Popular</div> *@
+@*                         </div> *@
+@*                         <div class="farmhouse-info"> *@
+@*                             <h3>Sunrise Valley Farmhouse</h3> *@
+@*                             <p class="location"><i class="fas fa-map-marker-alt"></i> Countryside, 15km from city</p> *@
+@*                             <div class="amenities"> *@
+@*                                 <span><i class="fas fa-bed"></i> 4 Bedrooms</span> *@
+@*                                 <span><i class="fas fa-swimming-pool"></i> Pool</span> *@
+@*                                 <span><i class="fas fa-users"></i> Up to 12 guests</span> *@
+@*                             </div> *@
+@*                             <p class="price">₹15,000 <span>per night</span></p> *@
+@*                             <a href="#" class="btn-secondary">View Details</a> *@
+@*                         </div> *@
+@*                     </div> *@
+
+@*                     <div class="farmhouse-card"> *@
+@*                         <div class="farmhouse-img"> *@
+@*                             <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750" alt="Green Meadows Retreat"> *@
+@*                         </div> *@
+@*                         <div class="farmhouse-info"> *@
+@*                             <h3>Green Meadows Retreat</h3> *@
+@*                             <p class="location"><i class="fas fa-map-marker-alt"></i> Hillside, 20km from city</p> *@
+@*                             <div class="amenities"> *@
+@*                                 <span><i class="fas fa-bed"></i> 3 Bedrooms</span> *@
+@*                                 <span><i class="fas fa-campground"></i> Bonfire</span> *@
+@*                                 <span><i class="fas fa-users"></i> Up to 8 guests</span> *@
+@*                             </div> *@
+@*                             <p class="price">₹12,000 <span>per night</span></p> *@
+@*                             <a href="#" class="btn-secondary">View Details</a> *@
+@*                         </div> *@
+@*                     </div> *@
+
+@*                     <div class="farmhouse-card"> *@
+@*                         <div class="farmhouse-img"> *@
+@*                             <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994" alt="Riverside Farmhouse"> *@
+@*                             <div class="farmhouse-badge">New</div> *@
+@*                         </div> *@
+@*                         <div class="farmhouse-info"> *@
+@*                             <h3>Riverside Farmhouse</h3> *@
+@*                             <p class="location"><i class="fas fa-map-marker-alt"></i> Riverside, 25km from city</p> *@
+@*                             <div class="amenities"> *@
+@*                                 <span><i class="fas fa-bed"></i> 5 Bedrooms</span> *@
+@*                                 <span><i class="fas fa-fish"></i> Fishing</span> *@
+@*                                 <span><i class="fas fa-users"></i> Up to 15 guests</span> *@
+@*                             </div> *@
+@*                             <p class="price">₹18,000 <span>per night</span></p> *@
+@*                             <a href="#" class="btn-secondary">View Details</a> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             } *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+<div id="propertyList" class="property-grid">
+    @foreach (var farmhouse in Model)
+    {
+        <div class="farmhouse-card">
+            <div class="farmhouse-img">
+                <img src="@Url.Content(farmhouse.ImageUrl)" alt="@farmhouse.Name" />
+            </div>
+            <div class="farmhouse-info">
+                <h3>@farmhouse.Name</h3>
+                <p class="location"><i class="fas fa-map-marker-alt"></i> @farmhouse.Location</p>
+                <div class="amenities">
+                    <span><i class="fas fa-bed"></i> @farmhouse.Bedrooms Bedrooms</span><br />
+                    <span><i class="fas fa-campground"></i> @farmhouse.Amenities</span><br />
+                    <span><i class="fas fa-users"></i> Up to @farmhouse.MaxGuests guests</span>
+                </div>
+                <p class="price">₹@farmhouse.PricePerNight <span>per night</span></p>
+                <a asp-controller="FarmHouse" asp-action="Details" asp-route-id="@farmhouse.Id" class="btn-secondary">View Details</a>
+            </div>
+        </div>
+    }
+</div>
+
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Found Your Perfect Farmhouse?</h2>
+            <p>Contact us now to check availability and book your stay.</p>
+            <a asp-controller="Home" asp-action="Contact" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Contact" ? "active" : "")">Contact us</a>
+        </div>
+    </div>
+</section>
+<script>
+    document.querySelector('.btn-filter').addEventListener('click', function () {
+        const location = document.getElementById('location').value;
+        const guests = document.getElementById('guests').value;
+        const amenities = document.getElementById('amenities').value;
+        const price = document.getElementById('price').value;
+
+        const cards = document.querySelectorAll('.farmhouse-card');
+
+        cards.forEach(card => {
+            const matchesLocation = !location || card.dataset.location === location;
+            const matchesGuests = !guests || card.dataset.guests === guests;
+            const matchesAmenities = !amenities || card.dataset.amenities === amenities;
+            const matchesPrice = !price || card.dataset.price === price;
+
+            if (matchesLocation && matchesGuests && matchesAmenities && matchesPrice) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
+<div class="farmhouse-card"
+     data-location="countryside"
+     data-guests="11+"
+     data-amenities="pool"
+     data-price="premium">

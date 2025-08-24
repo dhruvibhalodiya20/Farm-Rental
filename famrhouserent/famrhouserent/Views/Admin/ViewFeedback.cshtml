@@ -1,0 +1,39 @@
+﻿@model IEnumerable<famrhouserent.Models.Feedback>
+
+@{
+    ViewData["Title"] = "View Feedback";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br /><br />
+<div class="container mt-5">
+    <h2 class="mb-4">All Feedback</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Submitted At</th>
+                <th>User</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var feedback in Model)
+            {
+                <tr>
+                    <td>@feedback.SubmittedAt.ToString("MM/dd/yyyy HH:mm")</td>
+                    <td>@feedback.UserAccounts.Name</td>
+                    <td>@feedback.Rating</td>
+                    <td>@feedback.Comment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

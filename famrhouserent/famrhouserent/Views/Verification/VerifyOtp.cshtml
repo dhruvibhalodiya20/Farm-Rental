@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "Verify OTP";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Enter OTP</h1>
+    <p>Please enter the OTP sent to your email: @ViewBag.Email</p>
+    <form asp-action="VerifyOtp" method="post">
+        <input type="hidden" name="email" value="@ViewBag.Email" />
+        <div class="form-group">
+            <label for="otp">Enter OTP:</label>
+            <input type="text" class="form-control" id="otp" name="otp" required maxlength="6" pattern="\d{6}">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Verify OTP</button>
+    </form>
+</div>

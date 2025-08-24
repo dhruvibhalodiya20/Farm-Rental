@@ -1,0 +1,75 @@
+﻿@model Tuple<List<famrhouserent.Models.Booking>, List<famrhouserent.Models.Booking>>
+
+@{
+    ViewData["Title"] = "Confirmed / Cancelled Bookings";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<div class="container my-5">
+    <h2 class="text-center text-success mb-4">✅ Confirmed Bookings</h2>
+    <table class="table table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Farm</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Guests</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model.Item1)
+            {
+                <tr>
+                    <td>@booking.Id</td>
+                    <td>@booking.UserAccount?.Name</td>
+                    <td>@booking.FarmHouse?.Name</td>
+                    <td>@booking.FromDate.ToShortDateString()</td>
+                    <td>@booking.ToDate.ToShortDateString()</td>
+                    <td>@booking.Guests</td>
+                    <td>₹@booking.TotalPrice</td>
+                    <td>@booking.BookingDate.ToString("dd MMM yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr class="my-4" />
+
+    <h2 class="text-center text-danger mb-4">❌ Cancelled Bookings</h2>
+    <table class="table table-bordered">
+        <thead class="table-danger">
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Farm</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Guests</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model.Item2)
+            {
+                <tr>
+                    <td>@booking.Id</td>
+                    <td>@booking.UserAccount?.Name</td>
+                    <td>@booking.FarmHouse?.Name</td>
+                    <td>@booking.FromDate.ToShortDateString()</td>
+                    <td>@booking.ToDate.ToShortDateString()</td>
+                    <td>@booking.Guests</td>
+                    <td>₹@booking.TotalPrice</td>
+                    <td>@booking.BookingDate.ToString("dd MMM yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

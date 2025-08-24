@@ -1,0 +1,88 @@
+﻿
+@model famrhouserent.Models.FarmHouse
+
+@{
+    ViewData["Title"] = "Add Farm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br /><br />
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5">
+            <h2 class="mb-4 text-center text-success">
+                <i class="bi bi-house-add"></i> Add New Farm
+            </h2>
+
+            <form asp-action="Add" method="post" enctype="multipart/form-data">
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label">Farm Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter farm name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Location" class="form-label">Location</label>
+                        <input asp-for="Location" class="form-control" placeholder="Enter location" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the farm..."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ImageUrl" class="form-label">Image URL</label>
+                        <input asp-for="ImageUrl" class="form-control" placeholder="Paste image URL or leave blank" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Upload Images</label>
+                        <input type="file" name="images" class="form-control" multiple />
+                        <small class="text-muted">You can upload multiple images.</small>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="Bedrooms" class="form-label">Bedrooms</label>
+                        <input asp-for="Bedrooms" type="number" min="1" class="form-control" placeholder="e.g., 3" />
+                        <span asp-validation-for="Bedrooms" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="MaxGuests" class="form-label">Max Guests</label>
+                        <input asp-for="MaxGuests" type="number" min="1" class="form-control" placeholder="e.g., 8" />
+                        <span asp-validation-for="MaxGuests" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="PricePerNight" class="form-label">Price/Night (₹)</label>
+                        <input asp-for="PricePerNight" type="number" min="0" class="form-control" placeholder="e.g., 3500" />
+                        <span asp-validation-for="PricePerNight" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label asp-for="Amenities" class="form-label">Amenities</label>
+                        <input asp-for="Amenities" class="form-control" placeholder="Comma-separated (WiFi, Pool, AC...)" />
+                        <span asp-validation-for="Amenities" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-plus-circle"></i> Add Farm
+                    </button>
+                    <a asp-action="Dashboard" >Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,61 @@
+﻿@model famrhouserent.Models.FarmHouse
+
+@{
+    ViewData["Title"] = "Add Farm";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+            <h2 class="mb-4 text-center text-primary">Add New Farm</h2>
+
+            <form asp-action="Add" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter farm name" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Location</label>
+                        <input asp-for="Location" class="form-control" placeholder="Enter location" />
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe the farm..."></textarea>
+                    </div>
+                     <div class="col-md-6">  
+                         <label class="form-label">Image URL</label>
+                        <input asp-for="ImageUrl" class="form-control" placeholder="e.g., farm1.jpg, farm2.png" />
+                    </div> 
+                     
+
+                    <div class="col-md-6">
+                        <label class="form-label">Bedrooms</label>
+                        <input asp-for="Bedrooms" type="number" min="1" class="form-control" placeholder="Number of bedrooms" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Amenities</label>
+                        <input asp-for="Amenities" class="form-control" placeholder="Comma-separated (WiFi, Pool, AC...)" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Max Guests</label>
+                        <input asp-for="MaxGuests" type="number" min="1" class="form-control" placeholder="e.g., 10" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Price Per Night (₹)</label>
+                        <input asp-for="PricePerNight" type="number" min="0" class="form-control" placeholder="e.g., 3500" />
+                    </div>
+                </div>
+                <br />
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-success px-4">Add Farm</button>
+                    @* <a asp-action="ManageFarms" class="btn btn-secondary ms-2">Cancel</a> *@
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

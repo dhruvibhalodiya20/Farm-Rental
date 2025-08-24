@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "Our Farmhouses";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+}
+
+<section class="page-banner">
+    <div class="banner-content">
+        <h1>Our Farmhouses</h1>
+        <p>Discover the perfect farmhouse for your next getaway</p>
+    </div>
+</section>
+
+<section class="farmhouse-filters">
+    <div class="container">
+        <div class="filters">
+            <div class="filter-group">
+                <label for="location">Location</label>
+                <select id="location">
+                    <option value="">All Locations</option>
+                    <option value="Valenja">Valenja</option>
+                    <option value="kamrej">kamrej</option>
+                    <option value="Sevni">Sevni</option>
+                    <option value="Gadhpur">Gadhpur</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="guests">Guests</label>
+                <select id="guests">
+                    <option value="">Any</option>
+                    <option value="1-5">1-5 Guests</option>
+                    <option value="6-10">6-10 Guests</option>
+                    <option value="11+">11+ Guests</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="amenities">Amenities</label>
+                <select id="amenities">
+                    <option value="">All Amenities</option>
+                    <option value="pool">Swimming Pool</option>
+                    <option value="garden">Garden</option>
+                    <option value="Kitchen">Kitchen</option>
+                    <option value="gym">Gym</option>
+                    <option value="wifi">wifi</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price">Price Range</label>
+                <select id="price">
+                    <option value="">Any Price</option>
+                    <option value="budget">₹5,000 - ₹10,000</option>
+                    <option value="mid">₹10,000 - ₹15,000</option>
+                    <option value="premium">₹15,000+</option>
+                </select>
+            </div>
+            <button class="btn-filter">Apply Filters</button>
+        </div>
+    </div>
+</section>
+
+<section class="all-farmhouses">
+    <div class="container">
+        <div class="farmhouse-grid">
+            <div class="farmhouse-card">
+                <div class="farmhouse-img">
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFybWhvdXNlfGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60" alt="Sunrise Valley Farmhouse">
+                    <div class="farmhouse-badge">Popular</div>
+                </div>
+                <div class="farmhouse-info">
+                    <h3>Sunrise Valley Farmhouse</h3>
+                    <p class="location"><i class="fas fa-map-marker-alt"></i> Countryside, 15km from city</p>
+                    <div class="amenities">
+                        <span><i class="fas fa-bed"></i> 4 Bedrooms</span>
+                        <span><i class="fas fa-swimming-pool"></i> Pool</span>
+                        <span><i class="fas fa-users"></i> Up to 12 guests</span>
+                    </div>
+                    <p class="price">₹15,000 <span>per night</span></p>
+                    <a href="#" class="btn-secondary">View Details</a>
+                </div>
+            </div>
+            <!-- Repeat for other farmhouse cards -->
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Found Your Perfect Farmhouse?</h2>
+            <p>Contact us now to check availability and book your stay.</p>
+            <a asp-controller="Home" asp-action="Contact" class="btn-primary">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/script.js"></script>
+    <script>
+        // JavaScript for filtering farmhouses
+        document.querySelector('.btn-filter').addEventListener('click', function () {
+            const location = document.getElementById('location').value;
+            const guests = document.getElementById('guests').value;
+            const amenities = document.getElementById('amenities').value;
+            const price = document.getElementById('price').value;
+
+            console.log('Filters applied:', { location, guests, amenities, price });
+            // Add logic to filter farmhouses based on selected filters
+        });
+    </script>
+}

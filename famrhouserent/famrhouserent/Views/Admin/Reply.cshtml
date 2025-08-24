@@ -1,0 +1,26 @@
+﻿@model famrhouserent.Models.Contact
+
+@{
+    ViewData["Title"] = "Reply to Customer";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<div class="container py-5">
+    <h2>Reply to: @Model.Name</h2>
+    <p><strong>Subject:</strong> @Model.Subject</p>
+    <p><strong>Message:</strong> @Model.Message</p>
+
+    <form asp-action="ReplyToQuery" method="post">
+        <input type="hidden" name="queryId" value="@Model.Id" />
+        <div class="form-group">
+            <label>Reply Message</label>
+            <textarea name="adminReply" class="form-control" rows="4" required>@Model.AdminReply</textarea>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-success">Send Reply</button>
+        <a asp-action="CustomerQueries" class="btn btn-secondary">Back</a>
+    </form>
+</div>

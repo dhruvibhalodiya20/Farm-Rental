@@ -1,0 +1,67 @@
+﻿@model List<famrhouserent.Models.Contact>
+
+@{
+    ViewData["Title"] = "Customer Queries";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<div class="container py-5">
+    <h2 class="mb-4 text-success">📨 Customer Contact Queries</h2>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info">No customer queries found.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Received At</th>
+                        <th>Read</th>
+                        <th>Action</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@Model[i].Name</td>
+                            <td>@Model[i].Email</td>
+                            <td>@Model[i].Phone</td>
+                            <td>@Model[i].Subject</td>
+                            <td>@Model[i].Message</td>
+                            <td>@Model[i].CreatedAt.ToLocalTime().ToString("g")</td>
+                            <td>
+                                @if (Model[i].IsRead)
+                                {
+                                    <span class="badge bg-success">Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">No</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Reply" asp-route-id="@Model[i].Id" class="btn btn-sm btn-primary">
+                                    Reply
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

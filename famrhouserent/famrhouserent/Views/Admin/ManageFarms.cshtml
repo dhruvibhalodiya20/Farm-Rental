@@ -1,0 +1,41 @@
+﻿@model List<famrhouserent.Models.FarmHouse>
+
+@{
+    ViewData["Title"] = "Manage Farms";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <br /><br />
+    <h2 class="mb-4 text-success">🏡 All Farm Listings</h2>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-success">
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Bedrooms</th>
+                <th>Guests</th>
+                <th>Price</th>
+                <th style="width: 180px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var farm in Model)
+            {
+                <tr>
+                    <td>@farm.Name</td>
+                    <td>@farm.Location</td>
+                    <td>@farm.Bedrooms</td>
+                    <td>@farm.MaxGuests</td>
+                    <td>₹@farm.PricePerNight</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@farm.Id" class="btn btn-sm btn-warning me-2">✏️ Edit</a>
+                        <a asp-action="Delete" asp-route-id="@farm.Id" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this farm?')">🗑️ Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

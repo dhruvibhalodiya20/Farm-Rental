@@ -1,0 +1,21 @@
+﻿@model List<famrhouserent.Models.FarmHouse>
+
+@foreach (var farmhouse in Model)
+{
+    <div class="farmhouse-card">
+        <div class="farmhouse-img">
+            <img src="@Url.Content(farmhouse.ImageUrl)" alt="@farmhouse.Name" />
+        </div>
+        <div class="farmhouse-info">
+            <h3>@farmhouse.Name</h3>
+            <p class="location"><i class="fas fa-map-marker-alt"></i> @farmhouse.Location</p>
+            <div class="amenities">
+                <span><i class="fas fa-bed"></i> @farmhouse.Bedrooms Bedrooms</span><br />
+                <span><i class="fas fa-campground"></i> @farmhouse.Amenities</span><br />
+                <span><i class="fas fa-users"></i> Up to @farmhouse.MaxGuests guests</span>
+            </div>
+            <p class="price">₹@farmhouse.PricePerNight <span>per night</span></p>
+            <a asp-controller="FarmHouse" asp-action="Details" asp-route-id="@farmhouse.Id" class="btn-secondary">View Details</a>
+        </div>
+    </div>
+}

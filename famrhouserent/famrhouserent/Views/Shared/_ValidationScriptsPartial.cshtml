@@ -1,0 +1,36 @@
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Custom validation messages
+        $.validator.messages.required = 'This field is required.';
+        $.validator.messages.email = 'Please enter a valid email address.';
+        $.validator.messages.minlength = 'Please enter at least {0} characters.';
+
+        // Show alert messages for 5 seconds then fade out
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+
+        // Password strength indicator
+        $('input[type="password"]').on('input', function() {
+            var password = $(this).val();
+            var strength = 0;
+            
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+            var progressBar = $(this).siblings('.password-strength');
+            if (progressBar.length) {
+                var width = (strength / 5) * 100;
+                progressBar.width(width + '%');
+                progressBar.removeClass('bg-danger bg-warning bg-success')
+                    .addClass(width < 40 ? 'bg-danger' : width < 80 ? 'bg-warning' : 'bg-success');
+            }
+        });
+    });
+</script>

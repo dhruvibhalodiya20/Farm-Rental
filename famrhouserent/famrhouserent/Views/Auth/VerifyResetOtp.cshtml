@@ -1,0 +1,112 @@
+@{
+    ViewData["Title"] = "Verify Reset OTP";
+}
+<br>
+<br>
+<br>
+<br>
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Verify Reset OTP</h2>
+            <p>Enter the OTP sent to @ViewBag.Email</p>
+        </div>
+
+        <div class="auth-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            }
+
+            <form asp-action="VerifyResetOtp" method="post" class="auth-form">
+                <input type="hidden" name="email" value="@ViewBag.Email" />
+                
+                <div class="otp-inputs">
+                    @for (int i = 0; i < 6; i++)
+                    {
+                        <input type="text" 
+                               class="otp-input" 
+                               maxlength="1" 
+                               pattern="[0-9]"
+                               inputmode="numeric"
+                               autocomplete="one-time-code"
+                               required>
+                    }
+                </div>
+
+                <input type="hidden" name="otp" id="completeOtp">
+
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-check-circle"></i>
+                    Verify OTP
+                </button>
+
+                <div class="auth-links">
+                    <p>Didn't receive the code? 
+                        <a href="@Url.Action("ForgotPassword")" id="resendOtp">Request New OTP</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><br>
+<br>
+
+
+@section Scripts {
+    <script>
+        const otpInputs = document.querySelectorAll('.otp-input');
+        const completeOtpInput = document.getElementById('completeOtp');
+
+        // Prevent form submission on enter key
+        document.querySelector('form').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    return;
+                }
+
+                if (input.value) {
+                    input.value = input.value.replace(/[^0-9]/g, '');
+                    if (index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+
+            // Handle paste event
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').replace(/\D/g, '');
+                for (let i = 0; i < Math.min(pastedData.length, otpInputs.length); i++) {
+                    otpInputs[i].value = pastedData[i];
+                }
+            });
+        });
+
+        // Before form submission
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            if (otp.length !== 6 || !/^\d+$/.test(otp)) {
+                alert('Please enter a valid 6-digit OTP');
+                return;
+            }
+            completeOtpInput.value = otp;
+            e.target.submit();
+        });
+    </script>
+}

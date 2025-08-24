@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FarmHouse Hub</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="https://farmhousehub.in/images/farmhousehub-logo.svg" alt="FarmHouse Hub Logo">
+                </a>
+            </div>
+            <div class="nav-links">
+                <a asp-controller="Home" asp-action="Index" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">Home</a>
+                <a asp-controller="Home" asp-action="Properties" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Properties" ? "active" : "")">Properties</a>
+                <a asp-controller="Home" asp-action="About" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "About" ? "active" : "")">About</a>
+                <a asp-controller="Home" asp-action="Contact" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Contact" ? "active" : "")">Contact</a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            Welcome, @User.Identity.Name!
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="Auth" asp-action="ChangePassword">Change Password</a></li>
+                            @* <li><a class="dropdown-item" asp-controller="Auth" asp-action="ProfileManage">Profile Manage</a></li> *@
+                            <li><a class="dropdown-item" asp-controller="Feedback" asp-action="Create">Give Feedback</a></li>
+
+                            <li>
+                                <form asp-controller="Auth" asp-action="Logout" method="post">
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" asp-controller="Auth" asp-action="ProfileManage">Profile Manage</a>
+
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Auth" asp-action="Login" class="login-btn">Login</a>
+                }
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About FarmHouseHub</h3>
+                <p>Discover the perfect farmhouse getaway for your next vacation.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a asp-controller="Home" asp-action="Index" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">Home</a>
+                <a asp-controller="Home" asp-action="Properties" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Properties" ? "active" : "")">Properties</a>
+                <a asp-controller="Home" asp-action="About" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "About" ? "active" : "")">About</a>
+                <a asp-controller="Home" asp-action="Contact" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Contact" ? "active" : "")">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <a href="https://www.facebook.com/farmhousehub" target="_blank"><i class="fab fa-facebook"></i>facebook</a>
+                <a href="https://www.instagram.com/farmhousehub" target="_blank"><i class="fab fa-instagram"></i>instagram</a>
+              
+              </div>  
+               
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: farmhousehub24@gamil.com</p>
+                <p>Phone: +91 8460515128</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 FarmHouseHub. All rights reserved.</p>
+        </div>
+    </footer>
+  
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+     <script src="script.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

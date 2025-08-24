@@ -1,0 +1,114 @@
+@{
+    ViewData["Title"] = "Verify Email";
+}
+<br>
+<br>
+<br>
+<br>
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Email Verification</h2>
+            <p>We sent a code to @ViewBag.Email</p>
+        </div>
+
+        @if (TempData["EmailError"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                @TempData["EmailError"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="auth-body">
+            <form asp-action="VerifyEmail" method="post" class="auth-form">
+                <input type="hidden" name="email" value="@ViewBag.Email" />
+                
+                <div class="otp-inputs">
+                    @for (int i = 0; i < 6; i++)
+                    {
+                        <input type="text" 
+                               class="otp-input" 
+                               maxlength="1" 
+                               pattern="[0-9]"
+                               inputmode="numeric"
+                               autocomplete="one-time-code"
+                               required>
+                    }
+                </div>
+
+                <input type="hidden" name="otp" id="completeOtp">
+
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-check-circle"></i>
+                    Verify Email
+                </button>
+            </form>
+
+            <div class="auth-links">
+                <p>Didn't receive the code? <a href="#" id="resendOtp">Resend</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+@section Scripts {
+    <script>
+        // Add resend OTP functionality
+        document.getElementById('resendOtp').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = '@ViewBag.Email';
+            
+            try {
+                const response = await fetch('/Auth/ResendOtp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert('Verification code sent successfully!');
+                } else {
+                    alert(result.message || 'Failed to send verification code');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // OTP input handling
+        const otpInputs = document.querySelectorAll('.otp-input');
+        const completeOtpInput = document.getElementById('completeOtp');
+
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key !== 'Backspace' && input.value) {
+                    if (index < otpInputs.length - 1) otpInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value) {
+                    if (index > 0) otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            completeOtpInput.value = otp;
+            e.target.submit();
+        });
+    </script>
+}
+<br>
+<br>
+<br>
+<br>

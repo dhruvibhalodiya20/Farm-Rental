@@ -1,0 +1,67 @@
+﻿@model IEnumerable<famrhouserent.Models.Booking>
+
+@{
+    ViewData["Title"] = "Manage Bookings";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<br />
+<div class="container mt-5">
+    <h2 class="text-center text-success mb-4">📅 All Farm Bookings</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Booking ID</th>
+                <th>User ID</th>
+                <th>Farm ID</th>
+                <th>Farm Name</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Guests</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Booking Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Id</td>
+                    <td>@booking.UserAccount?.Id</td>
+                    <td>@booking.FarmHouse?.Id</td>
+                    <td>@booking.FarmHouse?.Name</td>
+                    <td>@booking.FromDate.ToShortDateString()</td>
+                    <td>@booking.ToDate.ToShortDateString()</td>
+                    <td>@booking.Guests</td>
+                    <td>₹@booking.TotalPrice</td>
+                    <td>
+                        <span class="badge @(booking.BookingStatus == "Confirmed" ? "bg-success" :
+                                 booking.BookingStatus == "Cancelled" ? "bg-danger" : "bg-warning")">
+                            @booking.BookingStatus
+                        </span>
+                    </td>
+                    <td>@booking.BookingDate.ToString("dd MMM yyyy")</td>
+                    <td>
+
+                        <form asp-action="UpdateStatus" asp-controller="Booking" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@booking.Id" />
+                            <input type="hidden" name="status" value="Confirmed" />
+                            <button type="submit" class="btn btn-success btn-sm">✅ Confirm</button>
+                        </form>
+
+                        <form asp-action="UpdateStatus" asp-controller="Booking" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@booking.Id" />
+                            <input type="hidden" name="status" value="Cancelled" />
+                            <button type="submit" class="btn btn-danger btn-sm">❌ Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

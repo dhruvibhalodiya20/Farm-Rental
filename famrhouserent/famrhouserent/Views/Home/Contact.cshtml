@@ -1,0 +1,366 @@
+@* @model famrhouserent.Models.ViewModels.ContactViewModel *@
+@* @{ *@
+@*     ViewData["Title"] = "Contact Us - FarmHouse Hub"; *@
+@* } *@
+
+@* <div class="contact-hero"> *@
+@*     <div class="overlay"></div> *@
+@*     <div class="container"> *@
+@*         <h1>Get in Touch</h1> *@
+@*         <p>We're here to help you find your perfect farmhouse getaway</p> *@
+@*     </div> *@
+@* </div> *@
+
+@* <div class="contact-section"> *@
+@*     <div class="container"> *@
+@*         <div class="contact-grid"> *@
+@*             <!-- Contact Form --> *@
+@*             <div class="contact-form-wrapper"> *@
+@*                 <div class="form-card"> *@
+@*                     <h2><i class="fas fa-envelope"></i> Send us a Message</h2> *@
+
+@*                     @if (TempData["SuccessMessage"] != null) *@
+@*                     { *@
+@*                         <div class="alert alert-success"> *@
+@*                             @TempData["SuccessMessage"] *@
+@*                         </div> *@
+@*                     } *@
+
+@*                     <!-- Contact Form --> *@
+@*                     <form asp-action="Contact" method="post" class="modern-form"> *@
+@*                         <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+
+@*                         <div class="form-row"> *@
+@*                             <div class="form-group"> *@
+@*                                 <label asp-for="Name">Your Name</label> *@
+@*                                 <div class="input-group"> *@
+@*                                     <i class="fas fa-user"></i> *@
+@*                                     <input asp-for="Name" placeholder="Enter your name" /> *@
+@*                                 </div> *@
+@*                                 <span asp-validation-for="Name" class="text-danger"></span> *@
+@*                             </div> *@
+@*                             <div class="form-group"> *@
+@*                                 <label asp-for="Email">Your Email</label> *@
+@*                                 <div class="input-group"> *@
+@*                                     <i class="fas fa-envelope"></i> *@
+@*                                     <input asp-for="Email" placeholder="Enter your email" /> *@
+@*                                 </div> *@
+@*                                 <span asp-validation-for="Email" class="text-danger"></span> *@
+@*                             </div> *@
+@*                         </div> *@
+
+@*                         <div class="form-group"> *@
+@*                             <label asp-for="Phone">Phone Number</label> *@
+@*                             <div class="input-group"> *@
+@*                                 <i class="fas fa-phone"></i> *@
+@*                                 <input asp-for="Phone" placeholder="Enter your phone number" /> *@
+@*                             </div> *@
+@*                             <span asp-validation-for="Phone" class="text-danger"></span> *@
+@*                         </div> *@
+
+@*                         <div class="form-group"> *@
+@*                             <label asp-for="Subject">Subject</label> *@
+@*                             <div class="input-group"> *@
+@*                                 <i class="fas fa-tag"></i> *@
+@*                                 <select asp-for="Subject"> *@
+@*                                     <option value="">Select a subject</option> *@
+@*                                     <option value="booking">Booking Inquiry</option> *@
+@*                                     <option value="support">Customer Support</option> *@
+@*                                     <option value="feedback">Feedback</option> *@
+@*                                     <option value="other">Other</option> *@
+@*                                 </select> *@
+@*                             </div> *@
+@*                             <span asp-validation-for="Subject" class="text-danger"></span> *@
+@*                         </div> *@
+
+@*                         <div class="form-group"> *@
+@*                             <label asp-for="Message">Message</label> *@
+@*                             <div class="input-group"> *@
+@*                                 <i class="fas fa-comment-alt"></i> *@
+@*                                 <textarea asp-for="Message" placeholder="Type your message here..." rows="5"></textarea> *@
+@*                             </div> *@
+@*                             <span asp-validation-for="Message" class="text-danger"></span> *@
+@*                         </div> *@
+
+@*                         <button type="submit" class="submit-btn"> *@
+@*                             <i class="fas fa-paper-plane"></i> *@
+@*                             Send Message *@
+@*                         </button> *@
+@*                     </form> *@
+@*                 </div> *@
+@*             </div> *@
+
+@*             <!-- Previous Queries Section --> *@
+@*             @foreach (var q in (List<famrhouserent.Models.Contact>)ViewBag.PreviousQueries) *@
+@*             { *@
+@*                 if (!string.IsNullOrEmpty(q.Message) && q.Message.Contains("1.5 day")) *@
+@*                 { *@
+@*                     continue; // Skip rendering this query *@
+@*                 } *@
+
+@*                 <div class="card border-0 shadow-sm mb-4"> *@
+@*                     <div class="card-header bg-dark text-white"> *@
+@*                         <div class="d-flex justify-content-between align-items-center"> *@
+@*                             <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>@q.Subject</h5> *@
+@*                             <small>@q.CreatedAt.ToString("dd MMM yyyy hh:mm tt")</small> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                     <div class="card-body bg-light"> *@
+@*                         <p class="mb-2"><strong>Message:</strong></p> *@
+@*                         <p class="mb-3">@q.Message</p> *@
+
+@*                         @if (!string.IsNullOrEmpty(q.AdminReply)) *@
+@*                         { *@
+@*                             <hr /> *@
+@*                             <p class="mb-2 text-success"><strong><i class="fas fa-reply me-2"></i>Admin Reply:</strong></p> *@
+@*                             <div class="p-3 bg-white border-start border-4 border-success rounded"> *@
+@*                                 <p class="mb-0">@q.AdminReply</p> *@
+@*                             </div> *@
+@*                         } *@
+@*                         else *@
+@*                         { *@
+@*                             <div class="alert alert-warning mt-3 mb-0"> *@
+@*                                 <i class="fas fa-hourglass-half me-1"></i> Awaiting admin response... *@
+@*                             </div> *@
+@*                         } *@
+@*                     </div> *@
+@*                 </div> *@
+@*             } *@
+
+
+@*             <!-- Contact Info Section --> *@
+@*             <div class="contact-info-wrapper"> *@
+@*                 <div class="info-card"> *@
+@*                     <div class="info-header"> *@
+@*                         <i class="fas fa-map-marked-alt"></i> *@
+@*                         <h3>Visit Us</h3> *@
+@*                     </div> *@
+@*                     <p>123 Farm Road, Mumbai<br />Maharashtra, India 400001</p> *@
+@*                     <a href="#" class="directions-link"> *@
+@*                         <i class="fas fa-directions"></i> *@
+@*                         Get Directions *@
+@*                     </a> *@
+@*                 </div> *@
+
+@*                 <div class="info-card"> *@
+@*                     <div class="info-header"> *@
+@*                         <i class="fas fa-clock"></i> *@
+@*                         <h3>Business Hours</h3> *@
+@*                     </div> *@
+@*                     <div class="business-hours"> *@
+@*                         <p><span>Mon - Fri:</span> 9:00 AM - 6:00 PM</p> *@
+@*                         <p><span>Saturday:</span> 10:00 AM - 4:00 PM</p> *@
+@*                         <p><span>Sunday:</span> Closed</p> *@
+@*                     </div> *@
+@*                 </div> *@
+
+@*                 <div class="info-card"> *@
+@*                     <div class="info-header"> *@
+@*                         <i class="fas fa-address-card"></i> *@
+@*                         <h3>Contact Info</h3> *@
+@*                     </div> *@
+@*                     <div class="contact-details"> *@
+@*                         <p><i class="fas fa-phone"></i> +91 8460515128</p> *@
+@*                         <p><i class="fas fa-envelope"></i> farmhousehub24@gmail.com</p> *@
+@*                     </div> *@
+@*                     <div class="social-links"> *@
+@*                         <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a> *@
+@*                         <a href="#" class="instagram"><i class="fab fa-instagram"></i></a> *@
+@*                         <a href="#" class="twitter"><i class="fab fa-twitter"></i></a> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+@* @section Scripts { *@
+@*     <partial name="_ValidationScriptsPartial" /> *@
+@* } *@
+
+
+@model famrhouserent.Models.ViewModels.ContactViewModel
+@{
+    ViewData["Title"] = "Contact Us - FarmHouse Hub";
+}
+
+<div class="contact-hero">
+    <div class="overlay"></div>
+    <div class="container">
+        <h1>Get in Touch</h1>
+        <p>We're here to help you find your perfect farmhouse getaway</p>
+    </div>
+</div>
+
+<div class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper">
+                <div class="form-card">
+                    <h2><i class="fas fa-envelope"></i> Send us a Message</h2>
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
+
+                    <form asp-action="Contact" method="post" class="modern-form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Name">Your Name</label>
+                                <div class="input-group">
+                                    <i class="fas fa-user"></i>
+                                    <input asp-for="Name" placeholder="Enter your name" />
+                                </div>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email">Your Email</label>
+                                <div class="input-group">
+                                    <i class="fas fa-envelope"></i>
+                                    <input asp-for="Email" placeholder="Enter your email" />
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Phone">Phone Number</label>
+                            <div class="input-group">
+                                <i class="fas fa-phone"></i>
+                                <input asp-for="Phone" placeholder="Enter your phone number" />
+                            </div>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Subject">Subject</label>
+                            <div class="input-group">
+                                <i class="fas fa-tag"></i>
+                                <select asp-for="Subject">
+                                    <option value="">Select a subject</option>
+                                    <option value="booking">Booking Inquiry</option>
+                                    <option value="support">Customer Support</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Message">Message</label>
+                            <div class="input-group">
+                                <i class="fas fa-comment-alt"></i>
+                                <textarea asp-for="Message" placeholder="Type your message here..." rows="5"></textarea>
+                            </div>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Info Section -->
+            <div class="contact-info-wrapper">
+                <div class="info-card">
+                    <div class="info-header">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h3>Visit Us</h3>
+                    </div>
+                    <p>123 Farm Road, Mumbai<br />Maharashtra, India 400001</p>
+                    <a href="#" class="directions-link">
+                        <i class="fas fa-directions"></i>
+                        Get Directions
+                    </a>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-header">
+                        <i class="fas fa-clock"></i>
+                        <h3>Business Hours</h3>
+                    </div>
+                    <div class="business-hours">
+                        <p><span>Mon - Fri:</span> 9:00 AM - 6:00 PM</p>
+                        <p><span>Saturday:</span> 10:00 AM - 4:00 PM</p>
+                        <p><span>Sunday:</span> Closed</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-header">
+                        <i class="fas fa-address-card"></i>
+                        <h3>Contact Info</h3>
+                    </div>
+                    <div class="contact-details">
+                        <p><i class="fas fa-phone"></i> +91 8460515128</p>
+                        <p><i class="fas fa-envelope"></i> farmhousehub24@gmail.com</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ? Previous Queries & Replies Section (bottom of page) -->
+@if (ViewBag.PreviousQueries != null)
+{
+    <div class="container mt-5 mb-5">
+        <h3 class="mb-4"><i class="fas fa-history me-2"></i> Your Previous Queries & Admin Replies</h3>
+
+        @foreach (var q in (List<famrhouserent.Models.Contact>)ViewBag.PreviousQueries)
+        {
+            @* if (!string.IsNullOrEmpty(q.Message) && q.Message.Contains("1.5 day")) *@
+            @* { *@
+            @*     continue;  *@
+            @* } *@
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-dark text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>@q.Subject</h5>
+                     
+                    </div>
+                </div>
+               
+                <div class="card-body bg-light">
+                    <p class="mb-2"><strong>Message:</strong></p>
+                    <p class="mb-3">@q.Message</p>
+
+                    @if (!string.IsNullOrEmpty(q.AdminReply))
+                    {
+                        <hr />
+                        <p class="mb-2 text-success"><strong><i class="fas fa-reply me-2"></i>Admin Reply:</strong></p>
+                        <div class="p-3 bg-white border-start border-4 border-success rounded">
+                            <p class="mb-0">@q.AdminReply</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning mt-3 mb-0">
+                            <i class="fas fa-hourglass-half me-1"></i> Awaiting admin response...
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

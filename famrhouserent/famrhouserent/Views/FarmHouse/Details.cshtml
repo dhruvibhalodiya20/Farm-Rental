@@ -1,0 +1,241 @@
+﻿@model famrhouserent.Models.ViewModels.FarmHouseViewModel
+
+@{
+    ViewData["Title"] = "Farmhouse Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success mt-3">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-3">@TempData["Error"]</div>
+}
+<br /><br />
+<section class="farmhouse-detail">
+    <div class="detail-header">
+        <h1>@Model.Name</h1>
+        <p><i class="fas fa-map-marker-alt"></i> @Model.Location</p>
+    </div>
+
+    <div class="farmhouse-layout">
+       
+        <div class="farmhouse-left">
+            <!--image -->
+            <div class="image-gallery" id="autoScrollGallery">
+                <img src="@Url.Content(Model.ImageUrl)" alt="Main Image" class="gallery-img" />
+                @if (Model.ImageUrls != null)
+                {
+                    foreach (var img in Model.ImageUrls)
+                    {
+                        <img src="@Url.Content(img)" alt="Gallery" class="gallery-img" />
+                    }
+                }
+
+            </div>
+
+            <p class="description">@Model.Description</p>
+            <ul class="info-list">
+                <li><i class="fas fa-bed"></i> Bedrooms: @Model.Bedrooms</li>
+                <li><i class="fas fa-users"></i> Max Guests: @Model.MaxGuests</li>
+                <li><i class="fas fa-rupee-sign"></i> ₹@Model.PricePerNight per night</li>
+                <li><i class="fas fa-star"></i> Amenities: @Model.Amenities</li>
+            </ul>
+        </div>
+
+        <!-- Booking -->
+        <div class="farmhouse-right">
+            <div class="booking-panel">
+                <h3>Book This Farmhouse</h3>
+                <form id="bookingForm" asp-action="Book" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+
+                    <label>Check-In Date:</label>
+                    <input type="date" name="checkIn" id="checkIn" required class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+
+                    <label>Check-Out Date:</label>
+                    <input type="date" name="checkOut" id="checkOut" required class="form-control" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+
+                    <label>Guests:</label>
+                    <select name="guests" class="form-control" required>
+                        @for (int i = 1; i <= Model.MaxGuests; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+
+                    <div class="price-calculation mt-3">
+                        <p><strong>Total Days:</strong> <span id="days">0</span></p>
+                        <p><strong>Total Price:</strong> ₹<span id="totalPrice">0</span></p>
+                    </div>
+
+                    <button type="button" class="btn btn-success w-100 mt-3" onclick="payNow()">
+                        <i class="fas fa-calendar-check"></i> Book Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Razorpay-->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+@section Scripts {
+    <script>
+        let totalPrice = 0;
+
+        function calculateDaysAndPrice() {
+            const checkIn = new Date(document.getElementById("checkIn").value);
+            const checkOut = new Date(document.getElementById("checkOut").value);
+
+            const diffTime = checkOut - checkIn;
+            const totalDays = diffTime / (1000 * 60 * 60 * 24);
+
+            if (totalDays > 0) {
+                document.getElementById("days").textContent = totalDays;
+                totalPrice = totalDays * @Model.PricePerNight;
+                document.getElementById("totalPrice").textContent = totalPrice;
+            } else {
+                document.getElementById("days").textContent = 0;
+                totalPrice = 0;
+                document.getElementById("totalPrice").textContent = 0;
+            }
+        }
+
+        document.getElementById("checkIn").addEventListener("change", calculateDaysAndPrice);
+        document.getElementById("checkOut").addEventListener("change", calculateDaysAndPrice);
+
+        function payNow() {
+            if (totalPrice === 0) {
+                alert("Please select valid check-in and check-out dates.");
+                return;
+            }
+
+            const options = {
+                key: "rzp_test_epK8pmxcnYrLfb",
+                amount: totalPrice * 100,
+                currency: "INR",
+                name: "@Model.Name",
+                description: "Farmhouse Booking Payment",
+                image: "@Url.Content("~/images/logo.png")",
+                handler: function (response) {
+
+                    document.getElementById("bookingForm").submit();
+                },
+                prefill: {
+                    name: "",
+                    email: "",
+                },
+                theme: {
+                    color: "#198754"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+    </script>
+}
+
+<style>
+    .farmhouse-detail {
+        padding: 30px;
+        max-width: 1200px;
+        margin: auto;
+        background: #fff;
+        border-radius: 10px;
+    }
+
+    .detail-header h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .farmhouse-layout {
+        display: flex;
+        gap: 40px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .farmhouse-left {
+        flex: 2;
+    }
+
+    .image-gallery {
+        display: flex;
+        overflow-x: auto;
+        gap: 15px;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 10px;
+    }
+
+        .image-gallery::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .image-gallery::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+    .gallery-img {
+        flex: 0 0 auto;
+        width: 300px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        scroll-snap-align: start;
+        border: 2px solid #ddd;
+    }
+
+    .description {
+        margin-top: 15px;
+        font-size: 1rem;
+    }
+
+    .info-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+        .info-list li {
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+    .farmhouse-right {
+        flex: 1;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .booking-panel label {
+        font-weight: 600;
+        display: block;
+        margin-top: 15px;
+    }
+
+    .booking-panel input,
+    .booking-panel select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+    }
+
+    .price-calculation {
+        margin-top: 15px;
+        font-size: 1rem;
+        background: #e9f5e9;
+        padding: 10px;
+        border-radius: 6px;
+    }
+</style>

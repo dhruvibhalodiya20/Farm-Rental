@@ -1,0 +1,8 @@
+@if (TempData["EmailError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        Email service is currently unavailable. Please try again later.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}

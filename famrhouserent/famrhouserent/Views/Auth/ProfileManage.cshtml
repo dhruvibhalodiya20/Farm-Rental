@@ -1,0 +1,46 @@
+﻿@model IEnumerable<famrhouserent.Models.Booking>
+
+@{
+    ViewData["Title"] = "My Bookings";
+}
+<br /><br /><br />
+
+<h2 class="text-center">📒 My Bookings</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Farm</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Guests</th>
+            <th>Status</th>
+            <th>Cancel</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.FarmHouse?.Name</td>
+                <td>@booking.FromDate.ToShortDateString()</td>
+                <td>@booking.ToDate.ToShortDateString()</td>
+                <td>@booking.Guests</td>
+                <td>@booking.BookingStatus</td>
+                <td>
+                    @if (booking.BookingStatus != "Cancelled")
+                    {
+                        <form asp-action="CancelBooking" asp-controller="Booking" method="post">
+                            <input type="hidden" name="id" value="@booking.Id" />
+                            @* <button type="submit" class="btn btn-danger btn-sm">❌ Cancel</button> *@
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Already Cancelled</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+
+}
+
+<div class="container py-5 bg-light min-vh-100">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-success mt-5">🏡 Farm Rental Admin Dashboard</h1>
+        <p class="text-muted fs-5">Manage farms, users, bookings, owners, and messages from one place.</p>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="row justify-content-center g-4">
+        <!-- Manage Users -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-people-fill fs-1 text-primary mb-3"></i>
+                    <h5 class="card-title">👥 Manage Users</h5>
+                    <a asp-controller="Admin" asp-action="AddUser" class="btn btn-outline-primary btn-sm mb-2 w-100">➕ Add User</a>
+                    <a asp-controller="Admin" asp-action="ViewUsers" class="btn btn-outline-primary btn-sm w-100">📄 View Users</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Farms -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-house-heart fs-1 text-success mb-3"></i>
+                    <h5 class="card-title">🏊🏻 Manage Farms</h5>
+                    <a asp-controller="Admin" asp-action="Add" class="btn btn-outline-success btn-sm mb-2 w-100">➕ Add Farm</a>
+                    <a asp-controller="Admin" asp-action="ManageFarms" class="btn btn-outline-success btn-sm w-100">🔧 Update/Delete</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Bookings -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-calendar-check fs-1 text-warning mb-3"></i>
+                    <h5 class="card-title">📅 Manage Bookings</h5>
+                    <a asp-controller="Booking" asp-action="ManageBooking" class="btn btn-outline-warning btn-sm mb-2 w-100">🔍 View All Bookings</a>
+                    <a asp-controller="Booking" asp-action="ConfirmedOrCancelled" class="btn btn-outline-warning btn-sm w-100">✅ Confirmed & ❌ Cancelled</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Owners -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-person-lines-fill fs-1 text-danger mb-3"></i>
+                    <h5 class="card-title">🧑‍🌾 Manage Owners</h5>
+                    <a href="/Staff/Index" class="btn btn-outline-danger btn-sm w-100">👥 Owner Listing</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Queries -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-envelope-fill fs-1 text-info mb-3"></i>
+                    <h5 class="card-title">📨 Contact Queries</h5>
+                    <a asp-controller="Admin" asp-action="CustomerQueries" class="btn btn-outline-info btn-sm w-100">View Messages</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card dashboard-card text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-envelope-fill fs-1 text-info mb-3"></i>
+                    <h5 class="card-title">📨 Feedback</h5>
+                    <a asp-controller="Admin" asp-action="ViewFeedback" class="btn btn-outline-success btn-sm w-100">View Feedback</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!--  CSS Styling -->
+<style>
+    .dashboard-card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-body {
+        padding: 2rem 1rem;
+    }
+
+    .card-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+    
+    .btn-outline-feedback {
+        border-color: #28a745; 
+        color: #28a745; 
+    }
+
+        .btn-outline-feedback:hover {
+            background-color: #28a745; 
+            color: white; 
+        }
+
+    .btn-sm {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.4rem;
+    }
+</style>
